@@ -1,0 +1,65 @@
+﻿@model FileShareWebApp.Models.FileModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>FileModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Create">
+
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--
+            <div class="form-group">
+                <label asp-for="Path" class="control-label"></label>
+                <input asp-for="Path" class="form-control" />s
+                <span asp-validation-for="Path" class="text-danger"></span>
+            </div>
+            -->
+            <div class="form-group" style="margin-top:10px">
+
+                <div class="form-check form-switch">
+                    <input asp-for="FileStoredInDb" type="checkbox" checked class="form-check-input" />
+                    <label asp-for="FileStoredInDb" class="form-check-label">Store Database(2mb limit) Or Physically </label>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="FileData" class="control-label"> File</label>
+                
+                <input asp-for="FileData" type="file" class="form-control" />
+
+                <span asp-validation-for="FileData" class="text-danger"></span>
+
+            </div>
+
+
+            
+            
+            
+
+            <div class="form-group" style="margin-top:10px">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

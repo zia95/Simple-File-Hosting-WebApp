@@ -1,0 +1,28 @@
+﻿
+<h4>Search For a File</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SearchResult">
+
+
+            <div class="form-group">
+                <label for="fileName" class="control-label">File Name:</label>
+                <input name="fileName" class="form-control" />
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Show all files</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
