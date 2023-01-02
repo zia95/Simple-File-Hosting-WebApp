@@ -25,12 +25,15 @@ namespace FileShareWebApp.Controllers
             _webenv = webhostenv;
             _context = context;
             _physical_storage_path = System.IO.Path.Combine(_webenv.WebRootPath, "uploads");
+            if(!System.IO.Directory.Exists(_physical_storage_path))
+                System.IO.Directory.CreateDirectory(_physical_storage_path);
         }
 
 
         // GET: FileModels
         public async Task<IActionResult> Index()
         {
+            //sync files
             //check if some physical files are not in sync with db
             bool synced = false;
             Array.ForEach(
@@ -42,8 +45,19 @@ namespace FileShareWebApp.Controllers
                         _context.FileModel.Add(new FileModel() { Name = $"synced_file_{System.IO.Path.GetFileName(e)}", FileStoredInDb = false, Path = e });
                         synced = true;
                     }
-
                 });
+            //remove if file exist in database but not in physical storage
+            foreach(var e in _context.FileModel)
+            {
+                if(!e.FileStoredInDb)
+                {
+                    if(System.IO.File.Exists(e.Path) == false)
+                    {
+                        _context.FileModel.Remove(e);
+                        synced= true;
+                    }
+                }
+            }
             if(synced)
                 await _context.SaveChangesAsync();
 
